@@ -1,12 +1,25 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Navigation } from "@/components/Navigation";
+import { LandingPage } from "@/components/LandingPage";
+import { CustomerView } from "@/components/CustomerView";
+import { BusinessDashboard } from "@/components/BusinessDashboard";
+import { PricingPage } from "@/components/PricingPage";
 
 const Index = () => {
+  const [currentMode, setCurrentMode] = useState<'landing' | 'customer' | 'business' | 'pricing'>('landing');
+
+  const handleModeChange = (mode: 'landing' | 'customer' | 'business' | 'pricing') => {
+    setCurrentMode(mode);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen">
+      <Navigation currentMode={currentMode} onModeChange={handleModeChange} />
+      
+      {currentMode === 'landing' && <LandingPage onModeChange={handleModeChange} />}
+      {currentMode === 'customer' && <CustomerView />}
+      {currentMode === 'business' && <BusinessDashboard />}
+      {currentMode === 'pricing' && <PricingPage onModeChange={handleModeChange} />}
     </div>
   );
 };

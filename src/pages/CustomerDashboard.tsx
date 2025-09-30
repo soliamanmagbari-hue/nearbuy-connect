@@ -14,7 +14,6 @@ interface Business {
   name: string;
   category: string;
   address: string;
-  phone: string | null;
   description: string | null;
   image_url: string | null;
   latitude: number | null;
@@ -27,6 +26,10 @@ interface Business {
   hours_saturday: string | null;
   hours_sunday: string | null;
   subscription_status: string;
+  website: string | null;
+  subscription_plan: string;
+  created_at: string;
+  updated_at: string;
 }
 const CustomerDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -75,10 +78,9 @@ const CustomerDashboard = () => {
   }, []);
   const fetchBusinesses = async () => {
     try {
-      const {
-        data,
-        error
-      } = await supabase.from('businesses').select('*').eq('subscription_status', 'active');
+      // Use the secure function to get public business information without sensitive contact details
+      const { data, error } = await supabase.rpc('get_public_businesses');
+      
       if (error) {
         toast.error("Error loading businesses");
         console.error(error);
@@ -93,12 +95,8 @@ const CustomerDashboard = () => {
     }
   };
   const filteredBusinesses = businesses.filter(business => business.name.toLowerCase().includes(searchQuery.toLowerCase()) || business.category.toLowerCase().includes(searchQuery.toLowerCase()) || business.address.toLowerCase().includes(searchQuery.toLowerCase()));
-  const handleCall = (phone: string | null) => {
-    if (phone) {
-      window.open(`tel:${phone}`, '_self');
-    } else {
-      toast.error("Phone number not available");
-    }
+  const handleCall = (businessId: string) => {
+    toast.info("Contact information is protected. Please visit the business to get contact details.");
   };
   const handleDirections = (address: string) => {
     const encodedAddress = encodeURIComponent(address);
@@ -306,9 +304,9 @@ const CustomerDashboard = () => {
                           </div>}
 
                         <div className="flex gap-2">
-                          <Button size="sm" variant="outline" className="flex-1" onClick={() => handleCall(business.phone)}>
+                          <Button size="sm" variant="outline" className="flex-1" onClick={() => handleCall(business.id)}>
                             <Phone className="h-3 w-3" />
-                            Call
+                            Contact
                           </Button>
                           <Button size="sm" variant="default" className="flex-1" onClick={() => handleDirections(business.address)}>
                             <Navigation className="h-3 w-3" />

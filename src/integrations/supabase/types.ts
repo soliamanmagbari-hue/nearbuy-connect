@@ -212,7 +212,38 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_business_contact_info: {
+        Args: { business_uuid: string }
+        Returns: {
+          email: string
+          phone: string
+        }[]
+      }
+      get_public_businesses: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          address: string
+          category: string
+          created_at: string
+          description: string
+          hours_friday: string
+          hours_monday: string
+          hours_saturday: string
+          hours_sunday: string
+          hours_thursday: string
+          hours_tuesday: string
+          hours_wednesday: string
+          id: string
+          image_url: string
+          latitude: number
+          longitude: number
+          name: string
+          subscription_plan: string
+          subscription_status: string
+          updated_at: string
+          website: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

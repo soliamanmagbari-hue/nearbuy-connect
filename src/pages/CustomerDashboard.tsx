@@ -32,6 +32,8 @@ const CustomerDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
+  const [locationPermission, setLocationPermission] = useState<'pending' | 'granted' | 'denied'>('pending');
   const {
     user,
     signOut
@@ -102,6 +104,70 @@ const CustomerDashboard = () => {
     const encodedAddress = encodeURIComponent(address);
     window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, '_blank');
   };
+
+  const requestLocation = () => {
+    if (!navigator.geolocation) {
+      toast.error("Geolocation is not supported by this browser");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+        setLocationPermission('granted');
+        toast.success("Location enabled! Distances updated.");
+      },
+      (error) => {
+        setLocationPermission('denied');
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            toast.error("Location access denied. Please enable location in your browser settings.");
+            break;
+          case error.POSITION_UNAVAILABLE:
+            toast.error("Location information is unavailable.");
+            break;
+          case error.TIMEOUT:
+            toast.error("Location request timed out.");
+            break;
+          default:
+            toast.error("An unknown error occurred while retrieving location.");
+            break;
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 300000 // 5 minutes
+      }
+    );
+  };
+
+  const calculateDistance = (lat1: number, lng1: number, lat2: number, lng2: number): number => {
+    const R = 6371; // Earth's radius in kilometers
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLng/2) * Math.sin(dLng/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  };
+
+  const getDistanceText = (business: Business): string => {
+    if (!userLocation || !business.latitude || !business.longitude) {
+      return "Location needed";
+    }
+    const distance = calculateDistance(
+      userLocation.lat, 
+      userLocation.lng, 
+      business.latitude, 
+      business.longitude
+    );
+    return distance < 1 ? `${Math.round(distance * 1000)}m` : `${distance.toFixed(1)}km`;
+  };
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
@@ -170,9 +236,14 @@ const CustomerDashboard = () => {
                   <p className="text-muted-foreground">
                     Interactive map with business locations and real-time navigation
                   </p>
-                  <Button variant="location" className="mt-4">
+                  <Button 
+                    variant="location" 
+                    className="mt-4" 
+                    onClick={requestLocation}
+                    disabled={locationPermission === 'granted'}
+                  >
                     <Navigation className="h-4 w-4" />
-                    Enable Location
+                    {locationPermission === 'granted' ? 'Location Enabled' : 'Enable Location'}
                   </Button>
                 </div>
               </div>
@@ -204,7 +275,7 @@ const CustomerDashboard = () => {
                             {business.name}
                           </h3>
                           <Badge variant="secondary" className="text-xs">
-                            {business.latitude && business.longitude ? "0.5 km" : "Location TBD"}
+                            {getDistanceText(business)}
                           </Badge>
                         </div>
                         

@@ -7,21 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { supabase } from "@/integrations/supabase/client";
-import { 
-  MapPin, 
-  Search, 
-  Star, 
-  Phone, 
-  Clock, 
-  Navigation,
-  LogOut,
-  Coffee,
-  ShoppingBag,
-  Utensils,
-  Smartphone
-} from "lucide-react";
+import { MapPin, Search, Star, Phone, Clock, Navigation, LogOut, Coffee, ShoppingBag, Utensils, Smartphone } from "lucide-react";
 import { toast } from "sonner";
-
 interface Business {
   id: string;
   name: string;
@@ -41,13 +28,14 @@ interface Business {
   hours_sunday: string | null;
   subscription_status: string;
 }
-
 const CustomerDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user, signOut } = useAuth();
-
+  const {
+    user,
+    signOut
+  } = useAuth();
   const getCategoryIcon = (category: string) => {
     switch (category.toLowerCase()) {
       case 'coffee':
@@ -65,33 +53,30 @@ const CustomerDashboard = () => {
         return ShoppingBag;
     }
   };
-
   const getRandomEmoji = (category: string) => {
-    const emojiMap: { [key: string]: string[] } = {
+    const emojiMap: {
+      [key: string]: string[];
+    } = {
       'coffee': ['☕', '🫖', '🥐'],
       'cafe': ['☕', '🧁', '🍰'],
       'restaurant': ['🍽️', '🍕', '🍝', '🥗'],
       'food': ['🍎', '🥖', '🍇'],
       'retail': ['👕', '👗', '👠'],
       'shopping': ['🛍️', '🎁', '👜'],
-      'electronics': ['📱', '💻', '🎧'],
+      'electronics': ['📱', '💻', '🎧']
     };
-    
     const emojis = emojiMap[category.toLowerCase()] || ['🏪', '🏬', '🏢'];
     return emojis[Math.floor(Math.random() * emojis.length)];
   };
-
   useEffect(() => {
     fetchBusinesses();
   }, []);
-
   const fetchBusinesses = async () => {
     try {
-      const { data, error } = await supabase
-        .from('businesses')
-        .select('*')
-        .eq('subscription_status', 'active');
-
+      const {
+        data,
+        error
+      } = await supabase.from('businesses').select('*').eq('subscription_status', 'active');
       if (error) {
         toast.error("Error loading businesses");
         console.error(error);
@@ -105,13 +90,7 @@ const CustomerDashboard = () => {
       setLoading(false);
     }
   };
-
-  const filteredBusinesses = businesses.filter(business =>
-    business.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    business.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    business.address.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
+  const filteredBusinesses = businesses.filter(business => business.name.toLowerCase().includes(searchQuery.toLowerCase()) || business.category.toLowerCase().includes(searchQuery.toLowerCase()) || business.address.toLowerCase().includes(searchQuery.toLowerCase()));
   const handleCall = (phone: string | null) => {
     if (phone) {
       window.open(`tel:${phone}`, '_self');
@@ -119,22 +98,16 @@ const CustomerDashboard = () => {
       toast.error("Phone number not available");
     }
   };
-
   const handleDirections = (address: string) => {
     const encodedAddress = encodeURIComponent(address);
     window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, '_blank');
   };
-
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background">
+    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
+  return <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       {/* Navigation */}
       <nav className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
@@ -164,9 +137,7 @@ const CustomerDashboard = () => {
         <div className="text-center mb-8">
           <h1 className="text-3xl lg:text-4xl font-bold mb-4">
             Discover
-            <span className="bg-hero-gradient bg-clip-text text-transparent ml-2">
-              Nearby Businesses
-            </span>
+            
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Find amazing local stores, cafés, and markets around you. Get notified about special offers and promotions.
@@ -177,12 +148,7 @@ const CustomerDashboard = () => {
         <div className="max-w-2xl mx-auto mb-8">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input
-              placeholder="Search for businesses, products, or services..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 pr-4 h-12 text-base shadow-soft"
-            />
+            <Input placeholder="Search for businesses, products, or services..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 pr-4 h-12 text-base shadow-soft" />
           </div>
         </div>
 
@@ -220,33 +186,17 @@ const CustomerDashboard = () => {
               {filteredBusinesses.length > 0 ? "Nearby Businesses" : "No Businesses Found"}
             </h2>
             
-            {filteredBusinesses.length === 0 ? (
-              <Card className="p-6 text-center bg-card-gradient">
+            {filteredBusinesses.length === 0 ? <Card className="p-6 text-center bg-card-gradient">
                 <p className="text-muted-foreground">
-                  {searchQuery 
-                    ? "No businesses match your search criteria. Try a different search term."
-                    : "No active businesses found. Check back later for new listings!"
-                  }
+                  {searchQuery ? "No businesses match your search criteria. Try a different search term." : "No active businesses found. Check back later for new listings!"}
                 </p>
-              </Card>
-            ) : (
-              filteredBusinesses.map((business) => {
-                const IconComponent = getCategoryIcon(business.category);
-                const emoji = getRandomEmoji(business.category);
-                
-                return (
-                  <Card key={business.id} className="p-4 hover:shadow-strong transition-smooth group cursor-pointer bg-card-gradient">
+              </Card> : filteredBusinesses.map(business => {
+            const IconComponent = getCategoryIcon(business.category);
+            const emoji = getRandomEmoji(business.category);
+            return <Card key={business.id} className="p-4 hover:shadow-strong transition-smooth group cursor-pointer bg-card-gradient">
                     <div className="flex items-start gap-3">
                       <div className="text-2xl group-hover:scale-110 transition-transform">
-                        {business.image_url ? (
-                          <img 
-                            src={business.image_url} 
-                            alt={business.name}
-                            className="w-10 h-10 rounded-lg object-cover"
-                          />
-                        ) : (
-                          <span>{emoji}</span>
-                        )}
+                        {business.image_url ? <img src={business.image_url} alt={business.name} className="w-10 h-10 rounded-lg object-cover" /> : <span>{emoji}</span>}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between mb-2">
@@ -280,43 +230,27 @@ const CustomerDashboard = () => {
                           </div>
                         </div>
 
-                        {business.description && (
-                          <div className="bg-accent/10 border border-accent/20 rounded-md p-2 mb-3">
+                        {business.description && <div className="bg-accent/10 border border-accent/20 rounded-md p-2 mb-3">
                             <p className="text-xs text-accent font-medium">🎉 {business.description}</p>
-                          </div>
-                        )}
+                          </div>}
 
                         <div className="flex gap-2">
-                          <Button 
-                            size="sm" 
-                            variant="outline" 
-                            className="flex-1"
-                            onClick={() => handleCall(business.phone)}
-                          >
+                          <Button size="sm" variant="outline" className="flex-1" onClick={() => handleCall(business.phone)}>
                             <Phone className="h-3 w-3" />
                             Call
                           </Button>
-                          <Button 
-                            size="sm" 
-                            variant="default" 
-                            className="flex-1"
-                            onClick={() => handleDirections(business.address)}
-                          >
+                          <Button size="sm" variant="default" className="flex-1" onClick={() => handleDirections(business.address)}>
                             <Navigation className="h-3 w-3" />
                             Directions
                           </Button>
                         </div>
                       </div>
                     </div>
-                  </Card>
-                );
-              })
-            )}
+                  </Card>;
+          })}
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default CustomerDashboard;

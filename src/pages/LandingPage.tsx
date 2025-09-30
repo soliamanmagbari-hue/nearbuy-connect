@@ -83,9 +83,7 @@ const LandingPage = () => {
                 
                 <br />
                 with Local
-                <span className="bg-hero-gradient bg-clip-text text-transparent ml-3">
-                  Businesses
-                </span>
+                
               </h1>
               <p className="text-xl text-muted-foreground max-w-xl">
                 The ultimate platform for discovering local stores, cafés, and markets. 

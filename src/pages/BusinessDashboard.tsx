@@ -27,6 +27,8 @@ import {
   Save
 } from "lucide-react";
 import { OffersManagement } from "@/components/OffersManagement";
+import { AnalyticsCards } from "@/components/AnalyticsCards";
+import { AnalyticsTab } from "@/components/AnalyticsTab";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -264,56 +266,23 @@ const BusinessDashboard = () => {
           </p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-card-gradient">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Subscription Status</CardTitle>
-              <Store className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {business?.subscription_status === 'active' ? 'Active' : 'Inactive'}
+        {/* Business Profile Required Check */}
+        {!business ? (
+          <Card className="bg-destructive/10 border-destructive/20 mb-8">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-destructive animate-pulse" />
+                <div>
+                  <h3 className="font-semibold text-destructive">Business Profile Required</h3>
+                  <p className="text-sm text-muted-foreground">Please complete your business profile in the Business Profile tab to access all features.</p>
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground">
-                {business?.subscription_plan || 'No plan selected'}
-              </p>
             </CardContent>
           </Card>
-          
-          <Card className="bg-card-gradient">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Monthly Views</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">2,350</div>
-              <p className="text-xs text-muted-foreground">+20.1% from last month</p>
-            </CardContent>
-          </Card>
-          
-          <Card className="bg-card-gradient">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Customer Calls</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">+573</div>
-              <p className="text-xs text-muted-foreground">+201 since last week</p>
-            </CardContent>
-          </Card>
-          
-          <Card className="bg-card-gradient">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Revenue</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$12,234</div>
-              <p className="text-xs text-muted-foreground">+19% from last month</p>
-            </CardContent>
-          </Card>
-        </div>
+        ) : (
+          /* Stats Cards */
+          <AnalyticsCards businessId={business.id} />
+        )}
 
         {/* Main Content */}
         <Tabs defaultValue="profile" className="space-y-6">
@@ -496,27 +465,39 @@ const BusinessDashboard = () => {
           </TabsContent>
 
           <TabsContent value="offers">
-            <OffersManagement businessId={business?.id} />
+            {!business ? (
+              <Card className="bg-card-gradient">
+                <CardContent className="p-6">
+                  <div className="text-center py-8">
+                    <Store className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                    <h4 className="text-lg font-medium mb-2">Business Profile Required</h4>
+                    <p className="text-muted-foreground">
+                      Please complete your business profile first to manage offers.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <OffersManagement businessId={business.id} />
+            )}
           </TabsContent>
 
           <TabsContent value="analytics">
-            <Card className="bg-card-gradient">
-              <CardHeader>
-                <CardTitle>Business Analytics</CardTitle>
-                <CardDescription>
-                  Track your business performance and customer engagement.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-12">
-                  <BarChart3 className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">Analytics Dashboard Coming Soon</h3>
-                  <p className="text-muted-foreground">
-                    Detailed insights about your business performance, customer visits, and engagement metrics.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            {!business ? (
+              <Card className="bg-card-gradient">
+                <CardContent className="p-6">
+                  <div className="text-center py-8">
+                    <BarChart3 className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                    <h4 className="text-lg font-medium mb-2">Business Profile Required</h4>
+                    <p className="text-muted-foreground">
+                      Please complete your business profile first to view analytics.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <AnalyticsTab businessId={business.id} />
+            )}
           </TabsContent>
 
           <TabsContent value="subscription">

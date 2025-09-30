@@ -29,6 +29,7 @@ import {
 import { OffersManagement } from "@/components/OffersManagement";
 import { AnalyticsCards } from "@/components/AnalyticsCards";
 import { AnalyticsTab } from "@/components/AnalyticsTab";
+import { PaymentModal } from "@/components/PaymentModal";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -78,6 +79,7 @@ const BusinessDashboard = () => {
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const { user, signOut } = useAuth();
 
   const form = useForm<BusinessFormData>({
@@ -191,12 +193,10 @@ const BusinessDashboard = () => {
           .select()
           .single();
       } else {
-        // Create new business
-        result = await supabase
-          .from('businesses')
-          .insert([{ ...businessData, subscription_status: 'inactive' }])
-          .select()
-          .single();
+        // Show payment modal for new business
+        setShowPaymentModal(true);
+        setSaving(false);
+        return;
       }
 
       if (result.error) {
@@ -214,8 +214,48 @@ const BusinessDashboard = () => {
     }
   };
 
-  const handleActivateSubscription = () => {
-    toast.info("Subscription management coming soon! For now, contact support to activate your subscription.");
+  const handlePaymentSuccess = async () => {
+    if (!user) return;
+
+    const formData = form.getValues();
+    const businessData = {
+      user_id: user.id,
+      name: formData.name,
+      description: formData.description || null,
+      category: formData.category,
+      address: formData.address,
+      phone: formData.phone || null,
+      email: formData.email || null,
+      website: formData.website || null,
+      hours_monday: formData.hours_monday || null,
+      hours_tuesday: formData.hours_tuesday || null,
+      hours_wednesday: formData.hours_wednesday || null,
+      hours_thursday: formData.hours_thursday || null,
+      hours_friday: formData.hours_friday || null,
+      hours_saturday: formData.hours_saturday || null,
+      hours_sunday: formData.hours_sunday || null,
+      subscription_status: 'active',
+      subscription_plan: 'business'
+    };
+
+    try {
+      const result = await supabase
+        .from('businesses')
+        .insert([businessData])
+        .select()
+        .single();
+
+      if (result.error) {
+        toast.error("Error creating business profile");
+        console.error(result.error);
+      } else {
+        setBusiness(result.data);
+        toast.success("Business profile created successfully!");
+      }
+    } catch (error) {
+      toast.error("Error creating business profile");
+      console.error(error);
+    }
   };
 
   if (loading) {
@@ -528,10 +568,10 @@ const BusinessDashboard = () => {
                     </p>
                     <Button 
                       className="mt-3" 
-                      onClick={handleActivateSubscription}
+                      onClick={() => setShowPaymentModal(true)}
                       variant="hero"
                     >
-                      Activate Subscription
+                      Pay $49 to Activate
                     </Button>
                   </div>
                 )}
@@ -547,6 +587,13 @@ const BusinessDashboard = () => {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* Payment Modal */}
+        <PaymentModal 
+          open={showPaymentModal}
+          onOpenChange={setShowPaymentModal}
+          onPaymentSuccess={handlePaymentSuccess}
+        />
       </div>
     </div>
   );

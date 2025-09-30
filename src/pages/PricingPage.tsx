@@ -20,7 +20,7 @@ const PricingPage = () => {
   const plans = [
     {
       name: "Basic",
-      price: "$29",
+      price: "$2.99",
       period: "/month",
       description: "Perfect for small local businesses getting started",
       features: [
@@ -36,7 +36,7 @@ const PricingPage = () => {
     },
     {
       name: "Professional",
-      price: "$59",
+      price: "$9.99",
       period: "/month",
       description: "Ideal for growing businesses wanting more visibility",
       features: [
@@ -53,7 +53,7 @@ const PricingPage = () => {
     },
     {
       name: "Premium",
-      price: "$99",
+      price: "$49.99",
       period: "/month",
       description: "For established businesses maximizing their reach",
       features: [

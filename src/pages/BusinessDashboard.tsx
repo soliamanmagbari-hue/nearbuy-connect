@@ -26,6 +26,7 @@ import {
   Globe,
   Save
 } from "lucide-react";
+import { OffersManagement } from "@/components/OffersManagement";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -495,23 +496,7 @@ const BusinessDashboard = () => {
           </TabsContent>
 
           <TabsContent value="offers">
-            <Card className="bg-card-gradient">
-              <CardHeader>
-                <CardTitle>Offers & Promotions</CardTitle>
-                <CardDescription>
-                  Create and manage special offers to attract customers to your business.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-12">
-                  <Tag className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">Offers Management Coming Soon</h3>
-                  <p className="text-muted-foreground">
-                    You'll be able to create and manage promotional offers for your customers.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <OffersManagement businessId={business?.id} />
           </TabsContent>
 
           <TabsContent value="analytics">

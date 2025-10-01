@@ -37,33 +37,33 @@ const PricingPage = () => {
   }];
   return <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       {/* Navigation */}
-      <nav className="container mx-auto px-4 py-6">
+      <nav className="container mx-auto px-4 py-4 md:py-6">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <ArrowLeft className="h-5 w-5" />
-            <MapPin className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">Market Connect</span>
+            <ArrowLeft className="h-4 w-4 md:h-5 md:w-5" />
+            <MapPin className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+            <span className="text-lg md:text-xl font-bold">Market Connect</span>
           </Link>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             {user ? <>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-xs md:text-sm text-muted-foreground hidden lg:block">
                   Welcome, {user?.user_metadata?.full_name || user?.email}!
                 </span>
-                <Link to="/customer">
-                  <Button variant="outline">Customer View</Button>
+                <Link to="/customer" className="hidden sm:block">
+                  <Button variant="outline" size="sm">Customer</Button>
                 </Link>
-                <Link to="/business">
-                  <Button variant="outline">Business View</Button>
+                <Link to="/business" className="hidden sm:block">
+                  <Button variant="outline" size="sm">Business</Button>
                 </Link>
                 <ThemeToggle />
-                <Button variant="ghost" onClick={signOut}>
+                <Button variant="ghost" size="sm" onClick={signOut}>
                   <LogOut className="h-4 w-4" />
-                  Sign Out
+                  <span className="hidden md:inline ml-2">Sign Out</span>
                 </Button>
               </> : <>
                 <Link to="/auth">
-                  <Button variant="outline">Sign In</Button>
+                  <Button variant="outline" size="sm">Sign In</Button>
                 </Link>
                 <ThemeToggle />
               </>}
@@ -71,17 +71,16 @@ const PricingPage = () => {
         </div>
       </nav>
 
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8 md:py-12">
         {/* Header */}
-        <div className="text-center space-y-4 mb-16">
-          <h1 className="text-4xl lg:text-5xl font-bold">
-            Simple, Transparent
-            
+        <div className="text-center space-y-3 md:space-y-4 mb-8 md:mb-12 lg:mb-16">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
+            Simple, Transparent Pricing
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
             Choose the perfect plan for your business. Start connecting with local customers today.
           </p>
-          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 text-xs md:text-sm text-muted-foreground">
             <Check className="h-4 w-4 text-green-500" />
             <span>No setup fees</span>
             <span>•</span>
@@ -94,7 +93,7 @@ const PricingPage = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 max-w-6xl mx-auto mb-8 md:mb-12 lg:mb-16">
           {plans.map((plan, index) => <Card key={index} className={`relative bg-card-gradient border-border/50 hover:shadow-strong transition-smooth ${plan.popular ? 'border-primary/50 scale-105' : ''}`}>
               {plan.popular && <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <Badge className="bg-hero-gradient text-primary-foreground px-4 py-1">

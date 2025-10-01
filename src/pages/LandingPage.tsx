@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { ArrowRight, MapPin, Smartphone, Store, Users, Star, TrendingUp, Shield, Zap } from "lucide-react";
+import { ArrowRight, MapPin, Smartphone, Store, Users, Star, TrendingUp, Shield, Zap, LogOut } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
 const LandingPage = () => {
   const {
@@ -42,31 +42,34 @@ const LandingPage = () => {
   }];
   return <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       {/* Navigation */}
-      <nav className="container mx-auto px-4 py-6">
+      <nav className="container mx-auto px-4 py-4 md:py-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <MapPin className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">Market Connect</span>
+            <MapPin className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+            <span className="text-lg md:text-xl font-bold">Market Connect</span>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <ThemeToggle />
-            {user ? <div className="flex items-center gap-4">
-                <Link to="/customer">
-                  <Button variant="outline">Customer View</Button>
+            {user ? <div className="flex items-center gap-2">
+                <Link to="/customer" className="hidden sm:block">
+                  <Button variant="outline" size="sm">Customer</Button>
                 </Link>
-                <Link to="/business">
-                  <Button variant="outline">Business View</Button>
+                <Link to="/business" className="hidden sm:block">
+                  <Button variant="outline" size="sm">Business</Button>
                 </Link>
-                <Button variant="ghost" onClick={signOut}>
+                <Button variant="ghost" size="sm" onClick={signOut} className="hidden sm:flex">
                   Sign Out
                 </Button>
-              </div> : <div className="flex items-center gap-4">
-                <Link to="/pricing">
-                  <Button variant="ghost">Pricing</Button>
+                <Button variant="ghost" size="sm" onClick={signOut} className="sm:hidden">
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </div> : <div className="flex items-center gap-2">
+                <Link to="/pricing" className="hidden sm:block">
+                  <Button variant="ghost" size="sm">Pricing</Button>
                 </Link>
                 <Link to="/auth">
-                  <Button variant="default">Get Started</Button>
+                  <Button variant="default" size="sm">Get Started</Button>
                 </Link>
               </div>}
           </div>
@@ -74,52 +77,48 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                Connect
-                
-                <br />
-                with Local
-                
+      <section className="container mx-auto px-4 py-8 md:py-16 lg:py-20">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div className="space-y-6 md:space-y-8">
+            <div className="space-y-3 md:space-y-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                Connect with Local Businesses
               </h1>
-              <p className="text-xl text-muted-foreground max-w-xl">
+              <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-xl">
                 The ultimate platform for discovering local stores, cafés, and markets. 
                 Get real-time offers and connect with businesses in your area.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to={user ? "/customer" : "/auth"}>
-                <Button size="lg" className="w-full sm:w-auto" variant="hero">
-                  <Users className="h-5 w-5" />
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+              <Link to={user ? "/customer" : "/auth"} className="w-full sm:w-auto">
+                <Button size="lg" className="w-full" variant="hero">
+                  <Users className="h-4 w-4 md:h-5 md:w-5" />
                   For Customers
-                  <ArrowRight className="h-5 w-5" />
+                  <ArrowRight className="h-4 w-4 md:h-5 md:w-5" />
                 </Button>
               </Link>
-              <Link to={user ? "/business" : "/auth"}>
-                <Button size="lg" variant="location" className="w-full sm:w-auto">
-                  <Store className="h-5 w-5" />
+              <Link to={user ? "/business" : "/auth"} className="w-full sm:w-auto">
+                <Button size="lg" variant="location" className="w-full">
+                  <Store className="h-4 w-4 md:h-5 md:w-5" />
                   For Businesses
-                  <ArrowRight className="h-5 w-5" />
+                  <ArrowRight className="h-4 w-4 md:h-5 md:w-5" />
                 </Button>
               </Link>
             </div>
 
-            <div className="flex items-center gap-8 text-sm text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-4 md:gap-8 text-xs md:text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
-                <Star className="h-4 w-4 text-accent fill-accent" />
+                <Star className="h-3 w-3 md:h-4 md:w-4 text-accent fill-accent" />
                 <span>4.9/5 Rating</span>
               </div>
               <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-accent" />
-                <span>Secure & Private</span>
+                <Shield className="h-3 w-3 md:h-4 md:w-4 text-accent" />
+                <span>Secure</span>
               </div>
               <div className="flex items-center gap-2">
-                <Zap className="h-4 w-4 text-accent" />
-                <span>Real-time Updates</span>
+                <Zap className="h-3 w-3 md:h-4 md:w-4 text-accent" />
+                <span>Real-time</span>
               </div>
             </div>
           </div>
@@ -134,13 +133,13 @@ const LandingPage = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((stat, index) => <div key={index} className="text-center space-y-2">
-              <div className="text-3xl lg:text-4xl font-bold text-primary">
+      <section className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          {stats.map((stat, index) => <div key={index} className="text-center space-y-1 md:space-y-2">
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
                 {stat.number}
               </div>
-              <div className="text-muted-foreground">
+              <div className="text-xs md:text-sm text-muted-foreground">
                 {stat.label}
               </div>
             </div>)}
@@ -148,17 +147,17 @@ const LandingPage = () => {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold">
+      <section className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
+        <div className="text-center space-y-3 md:space-y-4 mb-8 md:mb-12 lg:mb-16">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">
             Why Choose Market Connect?
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
             Everything you need to discover local businesses and grow your customer base.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
           {features.map((feature, index) => {
           const IconComponent = feature.icon;
           return <div key={index} className="group">

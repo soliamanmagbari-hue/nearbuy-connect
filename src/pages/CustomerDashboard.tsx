@@ -173,74 +173,73 @@ const CustomerDashboard = () => {
   }
   return <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       {/* Navigation */}
-      <nav className="container mx-auto px-4 py-6">
+      <nav className="container mx-auto px-4 py-4 md:py-6">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <MapPin className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">Market Connect</span>
+            <MapPin className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+            <span className="text-lg md:text-xl font-bold">Market Connect</span>
           </Link>
           
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">
+          <div className="flex items-center gap-2 md:gap-4">
+            <span className="text-xs md:text-sm text-muted-foreground hidden md:block">
               Welcome, {user?.user_metadata?.full_name || user?.email}!
             </span>
-            <Link to="/business">
-              <Button variant="outline">Business Dashboard</Button>
+            <Link to="/business" className="hidden sm:block">
+              <Button variant="outline" size="sm">Business</Button>
             </Link>
             <ThemeToggle />
-            <Button variant="ghost" onClick={signOut}>
+            <Button variant="ghost" size="sm" onClick={signOut}>
               <LogOut className="h-4 w-4" />
-              Sign Out
+              <span className="hidden md:inline ml-2">Sign Out</span>
             </Button>
           </div>
         </div>
       </nav>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 md:py-6 lg:py-8">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-4">
-            Discover
-            
+        <div className="text-center mb-4 md:mb-6 lg:mb-8">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-4">
+            Discover Local Businesses
           </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto px-4">
             Find amazing local stores, cafés, and markets around you. Get notified about special offers and promotions.
           </p>
         </div>
 
         {/* Search Bar */}
-        <div className="max-w-2xl mx-auto mb-8">
+        <div className="max-w-2xl mx-auto mb-4 md:mb-6 lg:mb-8">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input placeholder="Search for businesses, products, or services..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 pr-4 h-12 text-base shadow-soft" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 md:h-5 md:w-5 text-muted-foreground" />
+            <Input placeholder="Search businesses..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-9 md:pl-10 pr-4 h-10 md:h-12 text-sm md:text-base shadow-soft" />
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {/* Map Section */}
-          <div className="lg:col-span-2">
-            <Card className="p-6 mb-6 bg-card-gradient border-2 border-primary/20">
-              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-primary" />
+          <div className="lg:col-span-2 order-2 lg:order-1">
+            <Card className="p-4 md:p-6 mb-4 md:mb-6 bg-card-gradient border-2 border-primary/20">
+              <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4 flex items-center gap-2">
+                <MapPin className="h-4 w-4 md:h-5 md:w-5 text-primary" />
                 Interactive Map
               </h2>
               
               {/* Mock Map Interface */}
-              <div className="bg-muted/50 rounded-lg h-96 flex items-center justify-center relative overflow-hidden">
+              <div className="bg-muted/50 rounded-lg h-64 md:h-80 lg:h-96 flex items-center justify-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10"></div>
-                <div className="text-center z-10">
-                  <MapPin className="h-16 w-16 text-primary mx-auto mb-4 animate-pulse" />
-                  <h3 className="text-lg font-medium mb-2">Real Map Coming Soon</h3>
-                  <p className="text-muted-foreground">
+                <div className="text-center z-10 px-4">
+                  <MapPin className="h-12 w-12 md:h-16 md:w-16 text-primary mx-auto mb-3 md:mb-4 animate-pulse" />
+                  <h3 className="text-base md:text-lg font-medium mb-2">Real Map Coming Soon</h3>
+                  <p className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
                     Interactive map with business locations and real-time navigation
                   </p>
                   <Button 
                     variant="location" 
-                    className="mt-4" 
+                    size="sm"
                     onClick={requestLocation}
                     disabled={locationPermission === 'granted'}
                   >
-                    <Navigation className="h-4 w-4" />
+                    <Navigation className="h-3 w-3 md:h-4 md:w-4" />
                     {locationPermission === 'granted' ? 'Location Enabled' : 'Enable Location'}
                   </Button>
                 </div>
@@ -249,9 +248,9 @@ const CustomerDashboard = () => {
           </div>
 
           {/* Business List */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold flex items-center gap-2">
-              <Star className="h-5 w-5 text-accent" />
+          <div className="space-y-3 md:space-y-4 order-1 lg:order-2">
+            <h2 className="text-lg md:text-xl font-semibold flex items-center gap-2">
+              <Star className="h-4 w-4 md:h-5 md:w-5 text-accent" />
               {filteredBusinesses.length > 0 ? "Nearby Businesses" : "No Businesses Found"}
             </h2>
             

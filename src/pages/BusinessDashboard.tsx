@@ -213,37 +213,36 @@ const BusinessDashboard = () => {
   }
   return <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       {/* Navigation */}
-      <nav className="container mx-auto px-4 py-6">
+      <nav className="container mx-auto px-4 py-4 md:py-6">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <MapPin className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">Market Connect</span>
+            <MapPin className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+            <span className="text-lg md:text-xl font-bold">Market Connect</span>
           </Link>
           
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">
+          <div className="flex items-center gap-2 md:gap-4">
+            <span className="text-xs md:text-sm text-muted-foreground hidden md:block">
               Welcome, {user?.user_metadata?.full_name || user?.email}!
             </span>
-            <Link to="/customer">
-              <Button variant="outline">Customer View</Button>
+            <Link to="/customer" className="hidden sm:block">
+              <Button variant="outline" size="sm">Customer</Button>
             </Link>
             <ThemeToggle />
-            <Button variant="ghost" onClick={signOut}>
+            <Button variant="ghost" size="sm" onClick={signOut}>
               <LogOut className="h-4 w-4" />
-              Sign Out
+              <span className="hidden md:inline ml-2">Sign Out</span>
             </Button>
           </div>
         </div>
       </nav>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 md:py-6 lg:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-4">
-            Business
-            
+        <div className="mb-4 md:mb-6 lg:mb-8">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-4">
+            Business Dashboard
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-sm md:text-base text-muted-foreground">
             Manage your business profile, track performance, and grow your customer base.
           </p>
         </div>
@@ -263,23 +262,23 @@ const BusinessDashboard = () => {
       <AnalyticsCards businessId={business.id} />)}
 
         {/* Main Content */}
-        <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="profile">
-              <Settings className="h-4 w-4 mr-2" />
-              Business Profile
+        <Tabs defaultValue="profile" className="space-y-4 md:space-y-6">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
+            <TabsTrigger value="profile" className="text-xs md:text-sm">
+              <Settings className="h-3 w-3 md:h-4 md:w-4 md:mr-2" />
+              <span className="hidden sm:inline">Profile</span>
             </TabsTrigger>
-            <TabsTrigger value="offers">
-              <Tag className="h-4 w-4 mr-2" />
-              Offers & Promotions
+            <TabsTrigger value="offers" className="text-xs md:text-sm">
+              <Tag className="h-3 w-3 md:h-4 md:w-4 md:mr-2" />
+              <span className="hidden sm:inline">Offers</span>
             </TabsTrigger>
-            <TabsTrigger value="analytics">
-              <BarChart3 className="h-4 w-4 mr-2" />
-              Analytics
+            <TabsTrigger value="analytics" className="text-xs md:text-sm">
+              <BarChart3 className="h-3 w-3 md:h-4 md:w-4 md:mr-2" />
+              <span className="hidden sm:inline">Analytics</span>
             </TabsTrigger>
-            <TabsTrigger value="subscription">
-              <DollarSign className="h-4 w-4 mr-2" />
-              Subscription
+            <TabsTrigger value="subscription" className="text-xs md:text-sm">
+              <DollarSign className="h-3 w-3 md:h-4 md:w-4 md:mr-2" />
+              <span className="hidden sm:inline">Subscription</span>
             </TabsTrigger>
           </TabsList>
 

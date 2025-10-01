@@ -76,19 +76,19 @@ const AuthPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       {/* Navigation */}
-      <nav className="container mx-auto px-4 py-6">
+      <nav className="container mx-auto px-4 py-4 md:py-6">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <ArrowLeft className="h-5 w-5" />
-            <MapPin className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">Market Connect</span>
+            <ArrowLeft className="h-4 w-4 md:h-5 md:w-5" />
+            <MapPin className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+            <span className="text-lg md:text-xl font-bold">Market Connect</span>
           </Link>
           <ThemeToggle />
         </div>
       </nav>
 
       {/* Auth Form */}
-      <div className="container mx-auto px-4 py-8 flex justify-center">
+      <div className="container mx-auto px-4 py-4 md:py-8 flex justify-center">
         <div className="w-full max-w-md">
           <Tabs defaultValue="signin" className="space-y-4">
             <TabsList className="grid w-full grid-cols-2">

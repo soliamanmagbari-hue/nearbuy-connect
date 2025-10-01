@@ -263,22 +263,22 @@ const BusinessDashboard = () => {
 
         {/* Main Content */}
         <Tabs defaultValue="profile" className="space-y-4 md:space-y-6">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
-            <TabsTrigger value="profile" className="text-xs md:text-sm">
-              <Settings className="h-3 w-3 md:h-4 md:w-4 md:mr-2" />
-              <span className="hidden sm:inline">Profile</span>
+          <TabsList className="grid w-full grid-cols-4 gap-1">
+            <TabsTrigger value="profile" className="text-xs md:text-sm flex-col md:flex-row gap-1 md:gap-2 py-2">
+              <Settings className="h-4 w-4 md:h-4 md:w-4" />
+              <span className="text-[10px] md:text-sm">Profile</span>
             </TabsTrigger>
-            <TabsTrigger value="offers" className="text-xs md:text-sm">
-              <Tag className="h-3 w-3 md:h-4 md:w-4 md:mr-2" />
-              <span className="hidden sm:inline">Offers</span>
+            <TabsTrigger value="offers" className="text-xs md:text-sm flex-col md:flex-row gap-1 md:gap-2 py-2">
+              <Tag className="h-4 w-4 md:h-4 md:w-4" />
+              <span className="text-[10px] md:text-sm">Offers</span>
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="text-xs md:text-sm">
-              <BarChart3 className="h-3 w-3 md:h-4 md:w-4 md:mr-2" />
-              <span className="hidden sm:inline">Analytics</span>
+            <TabsTrigger value="analytics" className="text-xs md:text-sm flex-col md:flex-row gap-1 md:gap-2 py-2">
+              <BarChart3 className="h-4 w-4 md:h-4 md:w-4" />
+              <span className="text-[10px] md:text-sm">Analytics</span>
             </TabsTrigger>
-            <TabsTrigger value="subscription" className="text-xs md:text-sm">
-              <DollarSign className="h-3 w-3 md:h-4 md:w-4 md:mr-2" />
-              <span className="hidden sm:inline">Subscription</span>
+            <TabsTrigger value="subscription" className="text-xs md:text-sm flex-col md:flex-row gap-1 md:gap-2 py-2">
+              <DollarSign className="h-4 w-4 md:h-4 md:w-4" />
+              <span className="text-[10px] md:text-sm">Plan</span>
             </TabsTrigger>
           </TabsList>
 

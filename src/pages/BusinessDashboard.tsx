@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { supabase } from "@/integrations/supabase/client";
-import { MapPin, LogOut, Store, TrendingUp, Users, DollarSign, BarChart3, Settings, Tag, Clock, Phone, Mail, Globe, Save } from "lucide-react";
+import { MapPin, LogOut, Store, TrendingUp, Users, DollarSign, BarChart3, Settings, Tag, Clock, Phone, Mail, Globe, Save, Package } from "lucide-react";
 import { OffersManagement } from "@/components/OffersManagement";
 import { AnalyticsCards } from "@/components/AnalyticsCards";
 import { AnalyticsTab } from "@/components/AnalyticsTab";
@@ -263,10 +263,14 @@ const BusinessDashboard = () => {
 
         {/* Main Content */}
         <Tabs defaultValue="profile" className="space-y-4 md:space-y-6">
-          <TabsList className="grid w-full grid-cols-4 gap-1">
+          <TabsList className="grid w-full grid-cols-5 gap-1">
             <TabsTrigger value="profile" className="text-xs md:text-sm flex-col md:flex-row gap-1 md:gap-2 py-2">
               <Settings className="h-4 w-4 md:h-4 md:w-4" />
               <span className="text-[10px] md:text-sm">Profile</span>
+            </TabsTrigger>
+            <TabsTrigger value="products" className="text-xs md:text-sm flex-col md:flex-row gap-1 md:gap-2 py-2">
+              <Package className="h-4 w-4 md:h-4 md:w-4" />
+              <span className="text-[10px] md:text-sm">Products</span>
             </TabsTrigger>
             <TabsTrigger value="offers" className="text-xs md:text-sm flex-col md:flex-row gap-1 md:gap-2 py-2">
               <Tag className="h-4 w-4 md:h-4 md:w-4" />
@@ -399,6 +403,37 @@ const BusinessDashboard = () => {
                 </Form>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="products">
+            {!business ? (
+              <Card className="bg-card-gradient">
+                <CardContent className="p-6">
+                  <div className="text-center py-8">
+                    <Package className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                    <h4 className="text-lg font-medium mb-2">Business Profile Required</h4>
+                    <p className="text-muted-foreground">
+                      Please complete your business profile first to add products.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="bg-card-gradient">
+                <CardHeader>
+                  <CardTitle>Products</CardTitle>
+                  <CardDescription>
+                    Manage your business products and inventory.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full md:w-auto">
+                    <Package className="h-4 w-4 mr-2" />
+                    Add Products
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
           <TabsContent value="offers">

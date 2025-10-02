@@ -10,11 +10,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { supabase } from "@/integrations/supabase/client";
-import { MapPin, LogOut, Store, TrendingUp, Users, DollarSign, BarChart3, Settings, Tag, Clock, Phone, Mail, Globe, Save, Package } from "lucide-react";
+import { MapPin, LogOut, Store, TrendingUp, Users, DollarSign, BarChart3, Settings, Tag, Clock, Phone, Mail, Globe, Save, Package, Bot } from "lucide-react";
 import { OffersManagement } from "@/components/OffersManagement";
 import { AnalyticsCards } from "@/components/AnalyticsCards";
 import { AnalyticsTab } from "@/components/AnalyticsTab";
 import { PaymentModal } from "@/components/PaymentModal";
+import { AIConfigSection } from "@/components/AIConfigSection";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -263,7 +264,7 @@ const BusinessDashboard = () => {
 
         {/* Main Content */}
         <Tabs defaultValue="profile" className="space-y-4 md:space-y-6">
-          <TabsList className="grid w-full grid-cols-5 gap-1">
+          <TabsList className="grid w-full grid-cols-6 gap-1">
             <TabsTrigger value="profile" className="text-xs md:text-sm flex-col md:flex-row gap-1 md:gap-2 py-2">
               <Settings className="h-4 w-4 md:h-4 md:w-4" />
               <span className="text-[10px] md:text-sm">Profile</span>
@@ -275,6 +276,10 @@ const BusinessDashboard = () => {
             <TabsTrigger value="offers" className="text-xs md:text-sm flex-col md:flex-row gap-1 md:gap-2 py-2">
               <Tag className="h-4 w-4 md:h-4 md:w-4" />
               <span className="text-[10px] md:text-sm">Offers</span>
+            </TabsTrigger>
+            <TabsTrigger value="ai" className="text-xs md:text-sm flex-col md:flex-row gap-1 md:gap-2 py-2">
+              <Bot className="h-4 w-4 md:h-4 md:w-4" />
+              <span className="text-[10px] md:text-sm">AI</span>
             </TabsTrigger>
             <TabsTrigger value="analytics" className="text-xs md:text-sm flex-col md:flex-row gap-1 md:gap-2 py-2">
               <BarChart3 className="h-4 w-4 md:h-4 md:w-4" />
@@ -448,6 +453,20 @@ const BusinessDashboard = () => {
                   </div>
                 </CardContent>
               </Card> : <OffersManagement businessId={business.id} />}
+          </TabsContent>
+
+          <TabsContent value="ai">
+            {!business ? <Card className="bg-card-gradient">
+                <CardContent className="p-6">
+                  <div className="text-center py-8">
+                    <Bot className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                    <h4 className="text-lg font-medium mb-2">Business Profile Required</h4>
+                    <p className="text-muted-foreground">
+                      Please complete your business profile first to configure AI assistant.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card> : <AIConfigSection businessId={business.id} />}
           </TabsContent>
 
           <TabsContent value="analytics">

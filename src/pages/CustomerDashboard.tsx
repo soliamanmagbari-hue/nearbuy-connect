@@ -9,6 +9,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { supabase } from "@/integrations/supabase/client";
 import { MapPin, Search, Star, Phone, Clock, Navigation, LogOut, Coffee, ShoppingBag, Utensils, Smartphone } from "lucide-react";
 import { toast } from "sonner";
+import { AIChatButton } from "@/components/AIChatButton";
 interface Business {
   id: string;
   name: string;
@@ -302,15 +303,18 @@ const CustomerDashboard = () => {
                             <p className="text-xs text-accent font-medium">🎉 {business.description}</p>
                           </div>}
 
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="outline" className="flex-1" onClick={() => handleCall(business.id)}>
-                            <Phone className="h-3 w-3" />
-                            Contact
-                          </Button>
-                          <Button size="sm" variant="default" className="flex-1" onClick={() => handleDirections(business.address)}>
-                            <Navigation className="h-3 w-3" />
-                            Directions
-                          </Button>
+                        <div className="space-y-2">
+                          <div className="flex gap-2">
+                            <Button size="sm" variant="outline" className="flex-1" onClick={() => handleCall(business.id)}>
+                              <Phone className="h-3 w-3" />
+                              Contact
+                            </Button>
+                            <Button size="sm" variant="default" className="flex-1" onClick={() => handleDirections(business.address)}>
+                              <Navigation className="h-3 w-3" />
+                              Directions
+                            </Button>
+                          </div>
+                          <AIChatButton businessId={business.id} businessName={business.name} />
                         </div>
                       </div>
                     </div>
